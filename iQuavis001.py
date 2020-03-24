@@ -8,6 +8,29 @@ def tojump(data):
 	type(Key.TAB*2,Key.SHIFT)
 	type(" ")
 
+#iQ内でのタスクフィルター
+def filterTask(TaskName):
+	#タスクフィルター
+	click("1585015900958-1.png")
+	wait("1585015955657-1.png",30)
+	#フィルター名
+	click("1585018332463-1.png")
+	#クリア
+	type(Key.TAB*2+Key.SPACE)
+	#追加
+	type(Key.TAB*1+Key.SPACE)
+	#タスク名
+	wait("1585016551679-1.png",30)
+	doubleClick("1585016551679-1.png")
+	paste(TaskName)
+	#条件(等しいにする)
+	type(Key.TAB)
+	doubleClick("1585018653584-1.png")
+#	type(Key.DOWN*2)
+	#フィルター実行
+	type(Key.TAB*16,Key.SHIFT)
+	type(Key.SPACE)
+
 	
 if __name__ == "__main__":
 	salesMembers=[u"GuptaPiuesh",u"阿部真人",u"山越隆弘",u"村瀬浩司",u"羽祢田慎一",u"矢野博之",u"浜口満照",u"鄭香丹",u"緑創"]
@@ -45,12 +68,17 @@ if __name__ == "__main__":
 		CarType=cells[4]
 		ProjectType=cells[5]
 		InspectionMonth=cells[6]
+		Tachiai=cells[7]
+		Hikitori=cells[8]
 		SalesMemo=cells[12]
+		Shatachi=cells[17]
 		#営業メンバーをフルネームに変更
 		foundMember=False
 		for member in salesMembers:
-			SalesHR.replace("V","")
-			SalesHR.replace("*","")
+			SalesHR=SalesHR.replace("V","")
+			SalesHR=SalesHR.replace("*","")
+			SalesHR=SalesHR.replace("V","")
+			SalesHR=SalesHR.replace("Ⅴ","")
 			if member[0]==SalesHR[0] and member[1]==SalesHR[1] :
 				SalesHR=member
 				foundMember=True
@@ -98,7 +126,7 @@ if __name__ == "__main__":
 		wait("ProjectFindResult.png", 30)
 		rightClick(Pattern("ProjectName.png").targetOffset(-5,53))
 		type(Key.DOWN*3+Key.RIGHT+Key.ENTER)
-		wait("1583483224021.png", 30)
+		wait("1585015292635.png", 30)
 		#プロジェクト属性の変更
 		type(Key.TAB+Key.SPACE)
 		wait("1583483369189.png", 30)
@@ -153,14 +181,45 @@ if __name__ == "__main__":
 		type("p",Key.ALT)
 		type("ep")
 		wait("1584944395907.png",30)
+		wait(0.5)
 		#ガントの起動
 		type("t",Key.ALT)
 		type("g")
-		wait("1584943459663.png",30)
+		wait("1585036453996.png",30)
 		#ガントデータの貼り付け
 		type(Key.RIGHT)
 		wait(0.5)
 		paste(forGantData)
+		if Tachiai != "-":
+			#フィルター
+			filterTask(u"客先立会い")
+			#すべて選択
+			type("a",Key.CTRL)
+			#右クリック
+			wait(1)
+			type(Key.F10,Key.SHIFT)
+			wait("1585018064784.png",30)
+			#削除
+			type(Key.DOWN*4+Key.ENTER)
+			wait("1585030992825.png",30)
+			#OK
+			type(Key.SPACE)
+		if Hikitori != "-":
+			pass
+		if Shatachi != "-":
+			filterTask(u"社内立会い")
+			#すべて選択
+			type("a",Key.CTRL)
+			#右クリック
+			wait(1)
+			type(Key.F10,Key.SHIFT)
+			wait("1585018064784.png",30)
+			#削除
+			type(Key.DOWN*4+Key.ENTER)
+			wait("1585030992825.png",30)
+			#OK
+			type(Key.SPACE)
+			
 		#プロジェクト編集の終了
 		click("1584948649568.png")
 		wait("1584946481215.png",30)
