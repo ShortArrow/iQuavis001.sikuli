@@ -1,12 +1,23 @@
 import sys
+from java.awt.datatransfer import StringSelection
+from java.awt.datatransfer import Clipboard
+from java.awt import Toolkit
+
+#クリップボードの初期化
+def clearclipboard():
+	toolkit = Toolkit.getDefaultToolkit()
+	clipboard = toolkit.getSystemClipboard()
+	clipboard.setContents(StringSelection(""), None)
+
 #Excel内のジャンプメソッド
 def tojump(data):
 	type("g",Key.CTRL)
-	wait("1584673703104.png",30)
+	wait("1585806467201.png",30)
+	wait("1585806499383.png",30)
 	wait(0.5)
 	paste(data)
 	type(Key.TAB*2,Key.SHIFT)
-	type(" ")
+	type(Key.SPACE)
 
 #iQ内でのタスクフィルター
 def filterTask(TaskName):
@@ -33,7 +44,7 @@ def filterTask(TaskName):
 
 	
 if __name__ == "__main__":
-	salesMembers=[u"GuptaPiuesh",u"阿部真人",u"山越隆弘",u"村瀬浩司",u"羽祢田慎一",u"矢野博之",u"浜口満照",u"鄭香丹",u"緑創"]
+	salesMembers=[u"ｸﾞｯ",u"阿部真人",u"山越隆弘",u"村瀬浩司",u"羽祢田慎一",u"矢野博之",u"浜口満照",u"鄭香丹",u"緑創"]
 	for num in range(100):
 		#Excelのウィンドウ取得
 		if exists("1584949552344.png",0.5):
@@ -44,34 +55,39 @@ if __name__ == "__main__":
 			click("1584949552344.png")
 		wait("window pan.png",30)
 		type("x")
+		Excel=App
 		wait(0.5)
 	    
 	# 工番立ち上げ用データの取得
 	#	jumpto="INDIRECT(\"R4C\"&TEXT(COLUMN(),\"@\"),FALSE)"
 	#	tojump(jumpto)
 	#	wait("1584945292672.png",30)
-		jumpto="INDIRECT(\"R3C\"&TEXT(COLUMN(),\"@\")&\":R20C\"&TEXT(COLUMN(),\"@\"),FALSE)"
+		jumpto="INDIRECT(\"R1C\"&TEXT(COLUMN(),\"@\")&\":R20C\"&TEXT(COLUMN(),\"@\"),FALSE)"
 		tojump(jumpto)
 		wait("1584945292672.png",30)
+		clearclipboard()
 		type("c",Key.CTRL)
 		wait("1584945183240.png",30)
 		fromExcel=App.getClipboard()
 		cells=fromExcel.split("\n")
-		WorkNumber=cells[0]
+		UpdateDay=cells[0]
+		SumiChusi=cells[1]
+		WorkNumber=cells[2]
+		Customer=cells[3]
+		ProductType=cells[4]
+		SalesHR=cells[5]
+		CarType=cells[6]
+		ProjectType=cells[7]
+		InspectionMonth=cells[8]
+		Tachiai=cells[9]
+		Hikitori=cells[10]
+		NouhinJisseki=cells[12]
+		SalesMemo=cells[14]
+		Shatachi=cells[19]
 		#工番の終わりを検知して終了
 		if ""==WorkNumber:
 			popup("finish")
 			sys.exit(0)
-		Customer=cells[1]
-		ProductType=cells[2]
-		SalesHR=cells[3]
-		CarType=cells[4]
-		ProjectType=cells[5]
-		InspectionMonth=cells[6]
-		Tachiai=cells[7]
-		Hikitori=cells[8]
-		SalesMemo=cells[12]
-		Shatachi=cells[17]
 		#営業メンバーをフルネームに変更
 		foundMember=False
 		for member in salesMembers:
@@ -81,6 +97,8 @@ if __name__ == "__main__":
 			SalesHR=SalesHR.replace("Ⅴ","")
 			if member[0]==SalesHR[0] and member[1]==SalesHR[1] :
 				SalesHR=member
+				if member==u"ｸﾞｯ":
+					SalesHR=u"GuptaPiuesh"
 				foundMember=True
 		#未知の名前ならストップ
 		if foundMember==False:
@@ -90,6 +108,7 @@ if __name__ == "__main__":
 		jumpto="INDIRECT(\"R54C\"&TEXT(COLUMN(),\"@\")&\":R101C\"&TEXT(COLUMN(),\"@\"),FALSE)"
 		tojump(jumpto)
 		wait("1584945292672.png",30)
+		clearclipboard()
 		type("c",Key.CTRL)
 		wait("1584945183240.png",30)
 		forGantData=App.getClipboard()
@@ -106,6 +125,7 @@ if __name__ == "__main__":
 			click("1584602881074.png")
 			wait("HomeWindow.png", 30)
 			click("HomeWindow.png")
+		iQuavis=App
 		#検索を開始
 		type("hsn", Key.ALT)
 		wait("1583454054559.png", 30)
@@ -115,7 +135,8 @@ if __name__ == "__main__":
 		type("x")
 		#検索ワードの入力
 		type(Key.TAB*6)
-		paste(u"＃＃"+ProjectType[0]+ProjectType[1]+u"）コピー用マスター全行程 V3")
+#		paste(u"＃＃"+ProjectType[0]+ProjectType[1]+u"）コピー用マスター全行程 V3")
+		paste(u"＃＃新設）コピー用マスター全行程 V3")
 		#曖昧検索の指定
 		type(Key.TAB*1+Key.SPACE)
 		#テンプレートから検索する指定
@@ -127,6 +148,8 @@ if __name__ == "__main__":
 		rightClick(Pattern("ProjectName.png").targetOffset(-5,53))
 		type(Key.DOWN*3+Key.RIGHT+Key.ENTER)
 		wait("1585015292635.png", 30)
+		wait(0.5)
+		wait("1585361168627.png",30)
 		#プロジェクト属性の変更
 		type(Key.TAB+Key.SPACE)
 		wait("1583483369189.png", 30)
@@ -172,7 +195,7 @@ if __name__ == "__main__":
 		#OKボタン
 		type(Key.TAB*1+Key.SPACE)
 		#工番立ち上げ後
-		wait("1584944366429.png",30)
+		wait("1588827930081.png",60)
 		#画面の最大化
 		click("1584948138336.png")
 		wait("window pan.png",30)
@@ -180,12 +203,12 @@ if __name__ == "__main__":
 		#編集の開始
 		type("p",Key.ALT)
 		type("ep")
-		wait("1584944395907.png",30)
+		wait("1588828937033.png",60)
 		wait(0.5)
 		#ガントの起動
 		type("t",Key.ALT)
 		type("g")
-		wait("1585036453996.png",30)
+		wait("gantchart.png",60)
 		#ガントデータの貼り付け
 		type(Key.RIGHT)
 		wait(0.5)
@@ -193,6 +216,7 @@ if __name__ == "__main__":
 		if Tachiai != "-":
 			#フィルター
 			filterTask(u"客先立会い")
+			wait("gantchart.png",30)
 			#すべて選択
 			type("a",Key.CTRL)
 			#右クリック
